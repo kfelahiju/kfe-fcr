@@ -7735,11 +7735,14 @@ var Constraints = /** @class */ (function () {
         var peerEventInstances = this.eventManager.getEventInstances();
         var peerEventRanges = peerEventInstances.map(util_1.eventInstanceToEventRange);
         var peerEventFootprints = this.eventRangesToEventFootprints(peerEventRanges);
+        
         var selectAllowFunc;
+
         if (this.isFootprintAllowed(componentFootprint, peerEventFootprints, this.opt('selectConstraint'), this.opt('selectOverlap'))) {
             selectAllowFunc = this.opt('selectAllow');
+            // alert(selectAllowFunc);
             if (selectAllowFunc) {
-                return selectAllowFunc(componentFootprint.toLegacy(this._calendar)) !== false;
+                return selectAllowFunc(componentFootprint.toLegacy(this._calendar)) !== false;                
             }
             else {
                 return true;
@@ -7754,15 +7757,28 @@ var Constraints = /** @class */ (function () {
         if (constraintVal != null) {
             constraintFootprints = this.constraintValToFootprints(constraintVal, componentFootprint.isAllDay);
             if (!this.isFootprintWithinConstraints(componentFootprint, constraintFootprints)) {
+                console.log('------------- Hellow world ---------');
+                console.log(componentFootprint);
                 return false;
             }
         }
         overlapEventFootprints = this.collectOverlapEventFootprints(peerEventFootprints, componentFootprint);
-        if (overlapVal === false) {
-            if (overlapEventFootprints.length) {
-                return false;
+            console.log('------------- Overlap ---------');
+            console.log(componentFootprint.isAllDay);
+        // if (overlapVal === false) {
+        //     if (overlapEventFootprints.length) {
+        //         return false;
+        //     }
+        // }
+        // edit
+        // if(componentFootprint.isAllDay){
+            if (overlapVal === false) {
+                if (overlapEventFootprints.length) {
+                    return false;
+                }
             }
-        }
+        // }
+
         else if (typeof overlapVal === 'function') {
             if (!isOverlapsAllowedByFunc(overlapEventFootprints, overlapVal, subjectEventInstance)) {
                 return false;
@@ -7779,9 +7795,45 @@ var Constraints = /** @class */ (function () {
     // ------------------------------------------------------------------------------------------------
     Constraints.prototype.isFootprintWithinConstraints = function (componentFootprint, constraintFootprints) {
         var i;
-        for (i = 0; i < constraintFootprints.length; i++) {
-            if (this.footprintContainsFootprint(constraintFootprints[i], componentFootprint)) {
+        if(componentFootprint.isAllDay){
+            
+            // componentFootprint.unzonedRange.startMs
+            // componentFootprint.endMs
+            start_in_range = false;
+            end_in_range = false;
+            for (i = 0; i < constraintFootprints.length; i++) {
+                
+                if(start_in_range == false){
+                    if(componentFootprint.unzonedRange.startMs >= constraintFootprints[i].unzonedRange.startMs && componentFootprint.unzonedRange.startMs <= constraintFootprints[i].unzonedRange.endMs){
+                        start_in_range = true;
+                    }
+                }
+                if(end_in_range == false){
+                    if(componentFootprint.unzonedRange.endMs >= constraintFootprints[i].unzonedRange.startMs && componentFootprint.unzonedRange.endMs <= constraintFootprints[i].unzonedRange.endMs){
+                        end_in_range = true;
+                    }
+                }
+                // console.log('------------- constraintFootprints.length '+i+' ---------');
+                // console.log(constraintFootprints[i].unzonedRange.endMs+1);
+                // console.log(componentFootprint.unzonedRange.endMs+'>= '+constraintFootprints[i].unzonedRange.startMs+' && '+componentFootprint.unzonedRange.endMs+'<='+constraintFootprints[i].unzonedRange.startMs);
+                
+            }
+                // console.log('------------- constraintFootprints '+i+' ---------');
+                // console.log(componentFootprint.unzonedRange.endMs);
+                // console.log('------------- '+end_in_range+' ---------');
+                
+            if(start_in_range == true && end_in_range == true){
                 return true;
+            }else{
+                return false;
+            }
+        }else{
+            for (i = 0; i < constraintFootprints.length; i++) {
+                // console.log('------------- constraintFootprints '+i+' ---------');
+                // console.log(componentFootprint);
+                if (this.footprintContainsFootprint(constraintFootprints[i], componentFootprint)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -11243,6 +11295,11 @@ var DateSelecting = /** @class */ (function (_super) {
                 if (origHit) {
                     origHitFootprint = component.getSafeHitFootprint(origHit);
                     hitFootprint = component.getSafeHitFootprint(hit);
+                    console.log(origHitFootprint);
+                    console.log('---------');
+                    console.log(hitFootprint);
+                    console.log('---- computeSelection -----');
+                    console.log(_this.computeSelection(origHitFootprint, hitFootprint));
                     if (origHitFootprint && hitFootprint) {
                         selectionFootprint = _this.computeSelection(origHitFootprint, hitFootprint);
                     }
@@ -11252,6 +11309,7 @@ var DateSelecting = /** @class */ (function (_super) {
                     if (selectionFootprint) {
                         component.renderSelectionFootprint(selectionFootprint);
                     }
+                    // selection
                     else if (selectionFootprint === false) {
                         util_1.disableCursor();
                     }
@@ -11279,7 +11337,10 @@ var DateSelecting = /** @class */ (function (_super) {
     // Will return null/undefined if a selection invalid but no error should be reported.
     DateSelecting.prototype.computeSelection = function (footprint0, footprint1) {
         var wholeFootprint = this.computeSelectionFootprint(footprint0, footprint1);
+        console.log('------isSelectionFootprintAllowed-------');
+            console.log(this.component.dateClicking.component);
         if (wholeFootprint && !this.isSelectionFootprintAllowed(wholeFootprint)) {
+
             return false;
         }
         return wholeFootprint;
