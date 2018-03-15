@@ -7850,11 +7850,7 @@ var Constraints = /** @class */ (function () {
             end_day = moment(end).format('DD');
 
 
-            diff = end_day - start_day
-
-
-            // start_date = moment(start).format('MMM DD h:mm A');
-            // end_date = moment(end).format('MMM DD h:mm A');
+            diff = end_day - start_day;
             start_date = moment(start).format('YYYY MMM DD h:mm A');
             end_date = moment(end).format('YYYY MMM DD h:mm A');
 
@@ -7894,12 +7890,8 @@ var Constraints = /** @class */ (function () {
             numtrue = 0;
             for (i = 0; i < days.length; i++){
                 for (j = 0; j < constraintFootprints.length; j++) {
-                    // console.log(constraintFootprints[j].unzonedRange.startMs);
-                    if(days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs 
-                        ){
-                        // withinFootprint = true;
-                        console.log(days[i]['s'] +">="+ constraintFootprints[j].unzonedRange.startMs +" && "+ days[i]['e'] +"<="+ constraintFootprints[j].unzonedRange.endMs);
-                        console.log((days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs));
+                    
+                    if(days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs ){
                         numtrue++;
                         continue;
                     }
@@ -7913,8 +7905,6 @@ var Constraints = /** @class */ (function () {
             }
 
             console.log(days);
-        }
-        
         }
         return false;
     };
