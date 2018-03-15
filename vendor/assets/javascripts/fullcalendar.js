@@ -7850,7 +7850,11 @@ var Constraints = /** @class */ (function () {
             end_day = moment(end).format('DD');
 
 
-            diff = end_day - start_day;
+            diff = end_day - start_day
+
+
+            // start_date = moment(start).format('MMM DD h:mm A');
+            // end_date = moment(end).format('MMM DD h:mm A');
             start_date = moment(start).format('YYYY MMM DD h:mm A');
             end_date = moment(end).format('YYYY MMM DD h:mm A');
 
@@ -7869,6 +7873,7 @@ var Constraints = /** @class */ (function () {
                 else{
                     // a['s'] = moment(nd.setHours(00,00,59)).utc().valueOf();
                     // a['s'] = moment(nd).startOf('day').valueOf();
+                    console.log("startOf"+i+" == "+ moment(nd).utc().startOf('day').valueOf())
                     a['s'] = moment(nd).utc().startOf('day').valueOf();
 
                 }
@@ -7876,35 +7881,50 @@ var Constraints = /** @class */ (function () {
                 ed = moment(nd).format('DD');
                 if(ed == end_day){
                     a['e']= moment(end).valueOf();
-                    console.log(moment(end).valueOf())
                 }else{
                     
-                    a['e']= moment(nd).endOf('day').valueOf();                    
+                    a['e']= moment(nd).utc().endOf('day').valueOf();                    
+                    if(a['e'] > end){
+                        a['e'] = moment(end).utc().valueOf(); 
+                    }
+                    console.log("end_day"+i+" == "+ a['e'])
                 }
-                
-                days.push(a);
-                
+
+                // if (a['s'] > a['e']){
+                //     temp = a['e'];
+                //     a['e'] = a['s'];
+                //     a['s'] = temp;
+                // }
+                // if(a['e'] <= end && a['s'] < end){
+                    
+                // }
+                if( a['s'] < end){
+                    days.push(a);    
+                }  
             }
 
             withinFootprint = false;
             numtrue = 0;
             for (i = 0; i < days.length; i++){
                 for (j = 0; j < constraintFootprints.length; j++) {
-                    
+                    // console.log(constraintFootprints[j].unzonedRange.startMs);
                     if(days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs ){
+                        // withinFootprint = true;
+                        console.log(days[i]['s'] +">="+ constraintFootprints[j].unzonedRange.startMs +" && "+ days[i]['e'] +"<="+ constraintFootprints[j].unzonedRange.endMs);
+                        console.log((days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs));
                         numtrue++;
-                        continue;
+                        break;
                     }
                 }
                 withinFootprint = false;
             }
-            
-            console.log(end_day);
-            if(numtrue === days.length){
+            console.log(constraintFootprints)
+            console.log(days);
+
+            console.log(numtrue);
+            if(numtrue >= days.length){
                 return true;
             }
-
-            console.log(days);
         }
         
         return false;
