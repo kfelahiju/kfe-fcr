@@ -7838,7 +7838,73 @@ var Constraints = /** @class */ (function () {
 
             // edit
 
+            new_dates = [];
+            days = [];
+            start = componentFootprint.unzonedRange.startMs;
+            end  = componentFootprint.unzonedRange.endMs;
+            // start = start - (moment(start).utcOffset()*60*1000);
+            // end = end - (moment(end).utcOffset()*60*1000);
             
+            year = moment(start).utc().format('YYYY');
+            start_day = moment(start).format('DD');
+            end_day = moment(end).format('DD');
+
+
+            diff = end_day - start_day;
+            start_date = moment(start).format('YYYY MMM DD h:mm A');
+            end_date = moment(end).format('YYYY MMM DD h:mm A');
+
+
+            // for (var d = new Date(start_date); d <= new Date(end_date); d.setDate(d.getDate() + 1)) {
+            for(i = 0; i <= diff; i++){
+                /* document.write(new Date(d)) */;
+                a = [];
+                // nd = new Date(d);
+                nd = moment(start).add(i, 'days');
+                sd = moment(nd).format('DD');
+                
+                if(sd == start_day){
+                    a['s'] = moment(start).valueOf();
+                }
+                else{
+                    // a['s'] = moment(nd.setHours(00,00,59)).utc().valueOf();
+                    // a['s'] = moment(nd).startOf('day').valueOf();
+                    a['s'] = moment(nd).utc().startOf('day').valueOf();
+
+                }
+                /* setHours(23,59,59,999) */
+                ed = moment(nd).format('DD');
+                if(ed == end_day){
+                    a['e']= moment(end).valueOf();
+                    console.log(moment(end).valueOf())
+                }else{
+                    
+                    a['e']= moment(nd).endOf('day').valueOf();                    
+                }
+                
+                days.push(a);
+                
+            }
+
+            withinFootprint = false;
+            numtrue = 0;
+            for (i = 0; i < days.length; i++){
+                for (j = 0; j < constraintFootprints.length; j++) {
+                    
+                    if(days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs ){
+                        numtrue++;
+                        continue;
+                    }
+                }
+                withinFootprint = false;
+            }
+            
+            console.log(end_day);
+            if(numtrue === days.length){
+                return true;
+            }
+
+            console.log(days);
         }
         
         return false;
