@@ -7813,14 +7813,16 @@ var Constraints = /** @class */ (function () {
                         end_in_range = true;
                     }
                 }
-                // console.log('------------- constraintFootprints.length '+i+' ---------');
-                // console.log(constraintFootprints[i].unzonedRange.endMs+1);
-                // console.log(componentFootprint.unzonedRange.endMs+'>= '+constraintFootprints[i].unzonedRange.startMs+' && '+componentFootprint.unzonedRange.endMs+'<='+constraintFootprints[i].unzonedRange.startMs);
+                
+                console.log('------------- constraintFootprints.length '+i+' ---------');
+                console.log(componentFootprint.unzonedRange.endMs+'>= '+constraintFootprints[i].unzonedRange.startMs+' && '+componentFootprint.unzonedRange.endMs+'<='+constraintFootprints[i].unzonedRange.startMs);
                 
             }
                 // console.log('------------- constraintFootprints '+i+' ---------');
                 // console.log(componentFootprint.unzonedRange.endMs);
-                // console.log('------------- '+end_in_range+' ---------');
+                console.log(start_in_range+'------------- '+end_in_range+' ---------');
+                console.log(componentFootprint);
+                console.log(constraintFootprints);
                 
             if(start_in_range == true && end_in_range == true){
                 return true;
