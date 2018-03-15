@@ -7757,14 +7757,14 @@ var Constraints = /** @class */ (function () {
         if (constraintVal != null) {
             constraintFootprints = this.constraintValToFootprints(constraintVal, componentFootprint.isAllDay);
             if (!this.isFootprintWithinConstraints(componentFootprint, constraintFootprints)) {
-                console.log('------------- Hellow world ---------');
-                console.log(componentFootprint);
+                // console.log('------------- Hellow world ---------');
+                // console.log(componentFootprint);
                 return false;
             }
         }
         overlapEventFootprints = this.collectOverlapEventFootprints(peerEventFootprints, componentFootprint);
-            console.log('------------- Overlap ---------');
-            console.log(componentFootprint.isAllDay);
+            // console.log('------------- Overlap ---------');
+            // console.log(componentFootprint.isAllDay);
         // if (overlapVal === false) {
         //     if (overlapEventFootprints.length) {
         //         return false;
@@ -7873,7 +7873,7 @@ var Constraints = /** @class */ (function () {
                 else{
                     // a['s'] = moment(nd.setHours(00,00,59)).utc().valueOf();
                     // a['s'] = moment(nd).startOf('day').valueOf();
-                    console.log("startOf"+i+" == "+ moment(nd).utc().startOf('day').valueOf())
+                    // console.log("startOf"+i+" == "+ moment(nd).utc().startOf('day').valueOf())
                     a['s'] = moment(nd).utc().startOf('day').valueOf();
 
                 }
@@ -7887,17 +7887,9 @@ var Constraints = /** @class */ (function () {
                     if(a['e'] > end){
                         a['e'] = moment(end).utc().valueOf(); 
                     }
-                    console.log("end_day"+i+" == "+ a['e'])
+                    // console.log("end_day"+i+" == "+ a['e'])
                 }
 
-                // if (a['s'] > a['e']){
-                //     temp = a['e'];
-                //     a['e'] = a['s'];
-                //     a['s'] = temp;
-                // }
-                // if(a['e'] <= end && a['s'] < end){
-                    
-                // }
                 if( a['s'] < end){
                     days.push(a);    
                 }  
@@ -7910,23 +7902,23 @@ var Constraints = /** @class */ (function () {
                     // console.log(constraintFootprints[j].unzonedRange.startMs);
                     if(days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs ){
                         // withinFootprint = true;
-                        console.log(days[i]['s'] +">="+ constraintFootprints[j].unzonedRange.startMs +" && "+ days[i]['e'] +"<="+ constraintFootprints[j].unzonedRange.endMs);
-                        console.log((days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs));
+                        // console.log(days[i]['s'] +">="+ constraintFootprints[j].unzonedRange.startMs +" && "+ days[i]['e'] +"<="+ constraintFootprints[j].unzonedRange.endMs);
+                        // console.log((days[i]['s'] >= constraintFootprints[j].unzonedRange.startMs && days[i]['e'] <= constraintFootprints[j].unzonedRange.endMs));
                         numtrue++;
                         break;
                     }
                 }
                 withinFootprint = false;
             }
-            console.log(constraintFootprints)
-            console.log(days);
+            // console.log(constraintFootprints)
+            // console.log(days);
 
-            console.log(numtrue);
+            // console.log(numtrue);
             if(numtrue >= days.length){
                 return true;
             }
         }
-        
+
         return false;
     };
     Constraints.prototype.constraintValToFootprints = function (constraintVal, isAllDay) {
@@ -11386,11 +11378,11 @@ var DateSelecting = /** @class */ (function (_super) {
                 if (origHit) {
                     origHitFootprint = component.getSafeHitFootprint(origHit);
                     hitFootprint = component.getSafeHitFootprint(hit);
-                    console.log(origHitFootprint);
-                    console.log('---------');
-                    console.log(hitFootprint);
-                    console.log('---- computeSelection -----');
-                    console.log(_this.computeSelection(origHitFootprint, hitFootprint));
+                    // console.log(origHitFootprint);
+                    // console.log('---------');
+                    // console.log(hitFootprint);
+                    // console.log('---- computeSelection -----');
+                    // console.log(_this.computeSelection(origHitFootprint, hitFootprint));
                     if (origHitFootprint && hitFootprint) {
                         selectionFootprint = _this.computeSelection(origHitFootprint, hitFootprint);
                     }
@@ -11428,8 +11420,8 @@ var DateSelecting = /** @class */ (function (_super) {
     // Will return null/undefined if a selection invalid but no error should be reported.
     DateSelecting.prototype.computeSelection = function (footprint0, footprint1) {
         var wholeFootprint = this.computeSelectionFootprint(footprint0, footprint1);
-        console.log('------isSelectionFootprintAllowed-------');
-            console.log(this.component.dateClicking.component);
+        // console.log('------isSelectionFootprintAllowed-------');
+        //     console.log(this.component.dateClicking.component);
         if (wholeFootprint && !this.isSelectionFootprintAllowed(wholeFootprint)) {
 
             return false;
