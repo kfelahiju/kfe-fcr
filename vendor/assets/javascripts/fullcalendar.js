@@ -6258,12 +6258,15 @@ var DayTableMixin = /** @class */ (function (_super) {
         var innerHtml;
         if (typeof t.opt('columnHeaderHtml') === 'function') {
             innerHtml = t.opt('columnHeaderHtml')(date);
+            console.log('block 1');
         }
         else if (typeof t.opt('columnHeaderText') === 'function') {
             innerHtml = util_1.htmlEscape(t.opt('columnHeaderText')(date));
+            console.log('block 2');
         }
         else {
             innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
+            console.log('block 3');
         }
         console.log(innerHtml);
         // if only one row of days, the classNames on the header can represent the specific days beneath
