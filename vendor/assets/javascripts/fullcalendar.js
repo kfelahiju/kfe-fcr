@@ -6265,6 +6265,7 @@ var DayTableMixin = /** @class */ (function (_super) {
         else {
             innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
         }
+        console.log(innerHtml);
         // if only one row of days, the classNames on the header can represent the specific days beneath
         if (t.rowCnt === 1) {
             classNames = classNames.concat(
