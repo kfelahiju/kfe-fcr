@@ -6265,7 +6265,8 @@ var DayTableMixin = /** @class */ (function (_super) {
             console.log('block 2');
         }
         else {
-            innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
+            // innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
+            innerHtml = util_1.htmlEscape(date.format('DD-MM'));
             console.log('block 3');
         }
         console.log(innerHtml);
