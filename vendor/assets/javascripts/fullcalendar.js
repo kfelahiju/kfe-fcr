@@ -6129,7 +6129,8 @@ var DayTableMixin = /** @class */ (function (_super) {
             return 'ddd'; // "Sat"
         }
         else if (this.colCnt > 1) {
-            return this.opt('dayOfMonthFormat'); // "Sat 12/10"
+            // return this.opt('dayOfMonthFormat'); // "Sat 12/10"
+            return this.opt('ddd DD/MM');
         }
         else {
             return 'dddd'; // "Saturday"
@@ -6265,8 +6266,8 @@ var DayTableMixin = /** @class */ (function (_super) {
             console.log('block 2');
         }
         else {
-            // innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
-            innerHtml = util_1.htmlEscape(date.format('DD-MM'));
+            innerHtml = util_1.htmlEscape(date.format(t.colHeadFormat));
+            // innerHtml = util_1.htmlEscape(date.format('DD-MM'));
             console.log('block 3');
         }
         console.log(innerHtml);
