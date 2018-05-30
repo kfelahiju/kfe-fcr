@@ -2536,7 +2536,10 @@ var momComputableOptions = {
             format += ' ddd'; // for RTL, add day-of-week to end
         }
         else {
-            format = 'ddd ' + format; // for LTR, add day-of-week to beginning
+            sp = format.split("/");
+
+            // format = 'ddd ' + format; // for LTR, add day-of-week to beginning
+            format = 'ddd ' + sp[1]+'/'+sp[0]; // for LTR, add day-of-week to beginning
         }
         return format;
     },
@@ -6129,8 +6132,7 @@ var DayTableMixin = /** @class */ (function (_super) {
             return 'ddd'; // "Sat"
         }
         else if (this.colCnt > 1) {
-            // return this.opt('dayOfMonthFormat'); // "Sat 12/10"
-            return this.opt('ddd DD/MM');
+            return this.opt('dayOfMonthFormat'); // "Sat 12/10"
         }
         else {
             return 'dddd'; // "Saturday"
